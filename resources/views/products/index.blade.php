@@ -1,0 +1,29 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('products.list') }}
+        </h2>
+        <a href="{{ route('products.create') }}" class="text-white border p-1 rounded-md bg-indigo-600 hover:bg-indigo-700">
+            {{ __('products.create') }}
+        </a>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-4xl mx-auto space-y-4">
+            @foreach ($products as $product)
+                <div class="bg-white dark:bg-gray-800 p-4 rounded shadow text-gray-900 dark:text-gray-100">
+                    <h3 class="text-lg font-bold">{{ $product->name }}</h3>
+                    <p>{{ __('products.price') }}: ${{ $product->price }}</p>
+                    <p>{{ __('products.category') }}: {{ $product->category->name }}</p>
+                    <div class="mt-2 space-x-2">
+                        <a href="{{ route('products.edit', $product) }}" class="text-blue-500 hover:underline">{{ __('products.edit') }}</a>
+                        <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:underline">{{ __('products.delete') }}</button>
+                        </form>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</x-app-layout>
